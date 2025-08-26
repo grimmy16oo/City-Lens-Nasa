@@ -1,6 +1,6 @@
-document.getElementById("dashboard").addEventListener('click',function(e){
+document.getElementById("index").addEventListener('click',function(e){
     e.preventDefault();
-    window.location.href = "./dashboard.html";
+    window.location.href = "./index.html";
 })
 document.getElementById("map-view").addEventListener('click',function(e){
     e.preventDefault();
