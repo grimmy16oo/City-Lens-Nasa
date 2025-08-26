@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CityLens | Map View</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Leaflet Heatmap plugin -->
+  <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background: #f9fafb; }
+    .logo-font { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    #map { width: 100%; height: 600px; border-radius: 1rem; }
+    .leaflet-control-layers { background: rgba(255,255,255,0.9); border-radius: 0.5rem; padding: 0.5rem; }
+    .popup-card { background:white; padding:1rem; border-radius:0.75rem; box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+    .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+  </style>
+
+</head>
+<body class="text-gray-800">
+
+  <!-- Navbar -->
+  <header class="bg-[#1E40AF] shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-6">
+      <h1 class="text-3xl font-extrabold tracking-wider text-white logo-font">
+        City<span class="text-red-500">L</span>ens
+      </h1>
+
+      <!-- search -->
+      <label class="input flex items-center gap-2 bg-white/90 rounded-full px-4 h-12 border-none shadow-sm">
+        <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle cx="11" cy="11" r="8" stroke-width="2"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+        </svg>
+        <input type="search" placeholder="Search region…" class="bg-transparent text-gray-700 placeholder-gray-500 outline-none"/>
+      </label>
+
+      <!-- nav links -->
+      <nav>
+        <ul class="flex gap-6 font-medium text-white">
+          <li><a href="dashboard.html" class="hover:text-red-400 transition-colors">Dashboard</a></li>
+          <li><a href="#" class="hover:text-red-400 transition-colors">Map View</a></li>
+          <li><a href="analytics.html" class="hover:text-red-400 transition-colors">Analytics</a></li>
+          <li><a href="reports.html" class="hover:text-red-400 transition-colors">Reports</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="max-w-7xl mx-auto px-6 py-12 text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-[#1E40AF] fade-in-up title-font">Map View</h1>
+    <p class="text-gray-600 mt-4 max-w-2xl mx-auto fade-in-up">Interactive map with heatmaps: toggle Population, Greenery, and Air Quality layers.</p>
+  </section>
+
+  <!-- Map + Filters -->
+  <section class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row gap-8">
+    
+    <!-- Filters Sidebar -->
+    <div class="md:w-1/4 bg-white rounded-2xl p-6 shadow-md">
+      <h3 class="text-xl font-semibold text-gray-700 mb-4">Layers</h3>
+      <p class="text-gray-500 text-sm mb-2">Toggle map layers:</p>
+      <div class="flex flex-col gap-2">
+        <label><input type="checkbox" id="populationLayer" checked> Population</label>
+        <label><input type="checkbox" id="greeneryLayer" checked> Greenery</label>
+        <label><input type="checkbox" id="aqiLayer" checked> Air Quality</label>
+      </div>
+    </div>
+
+    <!-- Map Display -->
+    <div class="md:w-3/4">
+      <div id="map"></div>
+    </div>
+
+  </section>
+
+  <!-- DOM Popups -->
+<!-- DOM Popups -->
+<div id="popups" class="hidden">
+
+  <!-- Mirpur -->
+  <div id="mirpur-popup" class="popup-card p-4 max-w-sm bg-white shadow-lg rounded-xl">
+    <h3 class="text-xl font-bold mb-2">Mirpur</h3>
+    <p><strong>Type:</strong> Residential & commercial</p>
+    <p><strong>Population Density:</strong> Very High</p>
+    <p><strong>Greenery:</strong> Moderate</p>
+    <p><strong>Facilities:</strong> Schools, parks, shopping areas</p>
+    <p style="color:red;"><strong>⚠ Overpopulated Area</strong></p>
+  </div>
+
+  <!-- Gulshan -->
+  <div id="gulshan-popup" class="popup-card p-4 max-w-sm bg-white shadow-lg rounded-xl">
+    <h3 class="text-xl font-bold mb-2">Gulshan</h3>
+    <p><strong>Type:</strong> Business & embassy zone</p>
+    <p><strong>Population Density:</strong> Moderate</p>
+    <p><strong>Greenery:</strong> High</p>
+    <p><strong>Facilities:</strong> Offices, embassies, cafes, parks</p>
+    <p style="color:orange;"><strong>Moderate Density</strong></p>
+  </div>
+
+  <!-- Motijheel -->
+  <div id="motijheel-popup" class="popup-card p-4 max-w-sm bg-white shadow-lg rounded-xl">
+    <h3 class="text-xl font-bold mb-2">Motijheel</h3>
+    <p><strong>Type:</strong> Commercial & financial district</p>
+    <p><strong>Population Density:</strong> Very High during office hours</p>
+    <p><strong>Greenery:</strong> Low</p>
+    <p><strong>Facilities:</strong> Banks, offices, transport hubs</p>
+    <p style="color:red;"><strong>⚠ Overpopulated Area</strong></p>
+  </div>
+
+  <!-- Dhanmondi -->
+  <div id="dhanmondi-popup" class="popup-card p-4 max-w-sm bg-white shadow-lg rounded-xl">
+    <h3 class="text-xl font-bold mb-2">Dhanmondi</h3>
+    <p><strong>Type:</strong> Residential & commercial</p>
+    <p><strong>Population Density:</strong> High</p>
+    <p><strong>Greenery:</strong> High</p>
+    <p><strong>Facilities:</strong> Schools, parks, markets, cafes</p>
+    <p style="color:green;"><strong>Good Greenery</strong></p>
+  </div>
+
+  <!-- Uttara -->
+  <div id="uttara-popup" class="popup-card p-4 max-w-sm bg-white shadow-lg rounded-xl">
+    <h3 class="text-xl font-bold mb-2">Uttara</h3>
+    <p><strong>Type:</strong> Residential & commercial zone</p>
+    <p><strong>Population Density:</strong> High</p>
+    <p><strong>Greenery:</strong> Moderate</p>
+    <p><strong>Facilities:</strong> Schools, shopping complexes, parks</p>
+    <p style="color:red;"><strong>⚠ Overpopulated Area</strong></p>
+  </div>
+
+</div>
+
+  <!-- Footer -->
+  <footer class="bg-[#0B3D91] text-white mt-16">
+    <div class="max-w-7xl mx-auto py-6 px-6 flex justify-between items-center text-sm">
+      <p>© 2025 CityLens | Urban Planning</p>
+      <p>Built with 🚀 Sustainable Insights</p>
+    </div>
+  </footer>
+
+  <script src="./map.js"></script>
+
+</body>
+</html>
