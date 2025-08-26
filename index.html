@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CityLens | Urban Planning</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;600;800&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .logo-font { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    
+    /* Extra animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }     
+    }
+    .float { animation: float 3s ease-in-out infinite; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+  </style>
+</head>
+<body class="text-gray-200 bg-gradient-to-b from-[#0B3D91] via-[#0A2A6B] to-black">
+
+  <!-- navbar -->
+<header class="bg-[#0B3D91] shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-6">
+    <h1 class="text-3xl font-extrabold tracking-wider text-white logo-font">
+      City<span class="text-red-500">L</span>ens
+    </h1>
+    
+    <!-- search -->
+    <label class="input flex items-center gap-2 bg-white/90 rounded-full px-4 h-12 border-none shadow-sm">
+      <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle cx="11" cy="11" r="8" stroke-width="2"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+      </svg>
+      <input type="search" placeholder="Search region…" class="bg-transparent text-gray-700 placeholder-gray-500 outline-none"/>
+    </label>
+
+    <!-- nav links -->
+    <nav>
+      <ul class="flex gap-6 font-medium text-white">
+        <li><a href="#" class="hover:text-red-400 transition-colors">Dashboard</a></li>
+        <li><a href="#" class="hover:text-red-400 transition-colors">Map View</a></li>
+        <li><a href="#" class="hover:text-red-400 transition-colors">Analytics</a></li>
+        <li><a href="#" class="hover:text-red-400 transition-colors">Reports</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  <!-- hero section -->
+  <section class="relative h-[85vh] flex items-center justify-center text-center">
+    <!-- background -->
+    <div class="absolute inset-0 bg-[url('/CityLens/hero.jpg')] bg-cover bg-center"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-[#0B3D91]/80"></div>
+
+    <!-- content -->
+    <div class="relative z-10 px-6">
+      <h1 class="text-6xl md:text-7xl font-extrabold tracking-wide text-white fade-in-up title-font">
+        Urban Planning Dashboard
+      </h1>
+      <p class="text-xl font-medium text-gray-200 mt-6 max-w-2xl mx-auto fade-in-up">
+        Monitor <span class="text-green-400">Population</span>, 
+        <span class="text-green-300">Greenery</span>, 
+        & <span class="text-sky-400">Air Quality</span> across Bangladesh.
+      </p>
+    </div>
+  </section>
+
+  <!-- map + stats -->
+  <section class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-16 gap-12 my-12">
+      
+    <!-- map -->
+    <div class="max-w-[550px] w-full float">
+      <img src="/CityLens/map.svg" alt="Bangladesh Map" 
+           class="rounded-2xl shadow-2xl border border-gray-700 float"/>
+    </div>
+
+    <!-- stat cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+      <div class="bg-[#0D1B2A] rounded-2xl p-8 shadow-lg hover:shadow-red-400/30 hover:scale-105 transition fade-in-up">
+        <h3 class="text-xl font-semibold text-gray-300">Population</h3>
+        <h1 class="text-5xl font-extrabold text-sky-400 mt-2 title-font">21M</h1>
+        <p class="text-gray-400 mt-1">Current Population</p>
+      </div>
+
+      <div class="bg-[#0D1B2A] rounded-2xl p-8 shadow-lg hover:shadow-green-400/30 hover:scale-105 transition fade-in-up">
+        <h3 class="text-xl font-semibold text-gray-300">Greenery Level</h3>
+        <h1 class="text-5xl font-extrabold text-green-400 mt-2 title-font">32%</h1>
+        <progress class="progress progress-success w-full mt-2" value="32" max="100"></progress>
+      </div>
+
+      <div class="bg-[#0D1B2A] rounded-2xl p-8 shadow-lg hover:shadow-red-400/30 hover:scale-105 transition md:col-span-2 fade-in-up">
+        <h3 class="text-xl font-semibold text-gray-300">Air Quality Index</h3>
+        <h1 class="text-5xl font-extrabold text-red-400 mt-2 title-font">152</h1>
+        <p class="text-gray-400">Unhealthy ⚠️</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="bg-[#0B3D91] text-white mt-16">
+    <div class="max-w-7xl mx-auto py-6 px-6 flex justify-between items-center text-sm">
+      <p>© 2025 CityLens | Urban Planning </p>
+      <p>Built with 🚀 Sustainable Insights</p>
+    </div>
+  </footer>
+
+</body>
+</html>
