@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CityLens | Map View</title>
+
+  <!-- DaisyUI / Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background: #f9fafb; margin: 0; }
+    .logo-font { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    #map { width: 100%; height: 100vh; }
+    .leaflet-control-layers { background: rgba(255,255,255,0.9); border-radius: 0.5rem; padding: 0.5rem; }
+    
+  </style>
+
+</head>
+<body class="text-gray-800">
+
+<!-- Navbar -->
+  <header class="bg-[#0B3D91] shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-3xl font-extrabold tracking-wider text-white logo-font">
+        City<span class="text-red-500">L</span>ens
+      </h1>
+      <label class="input flex items-center gap-2 bg-white/90 rounded-full px-4 h-10 border-none shadow-sm">
+        <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="search" placeholder="Search data..." class="bg-transparent text-gray-700 placeholder-gray-500 outline-none text-sm"/>
+      </label>
+      <nav>
+        <ul class="flex gap-6 font-medium text-white">
+            <li><a id="index" href="dashboard.html" class="hover:text-red-400 hover:font-semibold transition-colors">Dashboard</a></li>
+            <li><a id="map-view" href="map.html" class="hover:text-red-400 hover:font-semibold transition-colors">Map View</a></li>
+            <li><a id="analytics" href="analytics.html" class="hover:text-red-400 hover:font-semibold transition-colors">Analytics</a></li>
+            <li><a id="reports-link" href="reports.html" class="hover:text-red-400 hover:font-semibold transition-colors">Reports</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Map Section -->
+  <div id="map"></div>
+
+  <!-- Footer -->
+  <footer class="bg-[#0B3D91] text-white mt-0">
+    <div class="max-w-7xl mx-auto py-4 px-6 flex justify-between items-center text-sm">
+      <p>© 2025 CityLens | Urban Planning</p>
+      <p>Built with 🚀 Sustainable Insights</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="../Js/map.js"></script>
+  <script src="../Js/navbar.js"></script>
+</body>
+</html>

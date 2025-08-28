@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CityLens | Urban Planning</title>
+  
+  <!-- DaisyUI / Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;600;800&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .logo-font { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #1E293B; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #0EA5E9; border-radius: 10px; }
+  </style>
+
+</head>
+<body class="text-gray-200 bg-gradient-to-b from-[#0B3D91] via-[#0A2A6B] to-black min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-[#0B3D91] shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-3xl font-extrabold tracking-wider text-white logo-font">
+        City<span class="text-red-500">L</span>ens
+      </h1>
+      <label class="input flex items-center gap-2 bg-white/90 rounded-full px-4 h-10 border-none shadow-sm">
+        <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="search" placeholder="Search data..." class="bg-transparent text-gray-700 placeholder-gray-500 outline-none text-sm"/>
+      </label>
+      <nav>
+        <ul class="flex gap-6 font-medium text-white">
+          <li><a href="#" id="nav-dashboard" class="hover:text-red-400 transition-colors">Dashboard</a></li>
+          <li><a href="#" id="nav-map" class="hover:text-red-400 transition-colors">Map View</a></li>
+          <li><a href="#" id="nav-analytics" class="hover:text-red-400 transition-colors">Analytics</a></li>
+          <li><a href="#" id="nav-reports" class="hover:text-red-400 transition-colors">Reports</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <!-- Analytics Section -->
+    <section id="analytics" class="mb-16 fade-in-up">
+      <h2 class="text-4xl font-bold text-white mb-8 title-font">Urban Analytics</h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div class="bg-[#0D1B2A]/80 rounded-2xl p-6 shadow-xl">
+          <h3 class="text-xl font-semibold text-white mb-4">Population Growth Trend</h3>
+          <div class="h-80"><canvas id="populationChart"></canvas></div>
+        </div>
+        <div class="bg-[#0D1B2A]/80 rounded-2xl p-6 shadow-xl">
+          <h3 class="text-xl font-semibold text-white mb-4">Greenery Distribution</h3>
+          <div class="h-80"><canvas id="greeneryChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        <div class="bg-[#0D1B2A]/80 rounded-2xl p-6 shadow-xl">
+          <h3 class="text-xl font-semibold text-white mb-4">Key Metrics</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between p-3 bg-sky-900/30 rounded-lg"><span>Population Density</span><span class="font-bold text-sky-400">4,200/km²</span></div>
+            <div class="flex justify-between p-3 bg-emerald-900/30 rounded-lg"><span>Green Space Per Capita</span><span class="font-bold text-emerald-400">12.5m²</span></div>
+            <div class="flex justify-between p-3 bg-amber-900/30 rounded-lg"><span>Avg. Temperature</span><span class="font-bold text-amber-400">26.8°C</span></div>
+            <div class="flex justify-between p-3 bg-rose-900/30 rounded-lg"><span>Air Quality Index</span><span class="font-bold text-rose-400">152 (Unhealthy)</span></div>
+          </div>
+        </div>
+        <div class="bg-[#0D1B2A]/80 rounded-2xl p-6 shadow-xl lg:col-span-2">
+          <h3 class="text-xl font-semibold text-white mb-4">Regional Comparison</h3>
+          <div class="h-80"><canvas id="regionalChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#0B3D91] text-white mt-16">
+    <div class="max-w-7xl mx-auto py-6 px-6 flex justify-between items-center text-sm">
+      <p>© 2025 CityLens | Urban Planning</p>
+      <p>Built with 🚀 Sustainable Insights</p>
+    </div>
+  </footer>
+
+  <!-- External JS -->
+  <script src="../Js/analytics.js"></script>
+  <script src="../Js/navbar.js"></script>
+</body>
+</html>
